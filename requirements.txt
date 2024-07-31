@@ -1,5 +1,4 @@
 rdflib
-urllib
 requests
 beautifulsoup4
 pandas
