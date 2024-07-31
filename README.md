@@ -1,1 +1,1 @@
-# SPARQL_course
+# KG_course
