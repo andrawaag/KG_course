@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Setting up the environment &#8212; draft_Work in Progress Knowledge Graphs for the life sciences</title>
+    <title>SPARQL query &#8212; draft_Work in Progress Knowledge Graphs for the life sciences</title>
   
   
   
@@ -57,11 +57,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'preparations/intro';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'templates/local_sparql_template';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="SPARQL query" href="../templates/local_sparql_template.html" />
-    <link rel="prev" title="Knowledge graphs in the life sciences" href="../intro.html" />
+    <link rel="next" title="SPARQL Query" href="remote_sparql_template.html" />
+    <link rel="prev" title="Setting up the environment" href="../preparations/intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -180,11 +180,11 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Setting up the environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preparations/intro.html">Setting up the environment</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="../templates/local_sparql_template.html">SPARQL query</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">SPARQL query</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="../templates/remote_sparql_template.html">SPARQL Query</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remote_sparql_template.html">SPARQL Query</a></li>
 
 </ul>
 
@@ -257,7 +257,7 @@
       
       
       
-      <li><a href="https://github.com/andrawaag/KG_course/issues/new?title=Issue%20on%20page%20%2Fpreparations/intro.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/andrawaag/KG_course/issues/new?title=Issue%20on%20page%20%2Ftemplates/local_sparql_template.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -287,7 +287,7 @@
       
       
       
-      <li><a href="../_sources/preparations/intro.md" target="_blank"
+      <li><a href="../_sources/templates/local_sparql_template.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -297,7 +297,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -371,7 +371,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Setting up the environment</h1>
+    <h1>SPARQL query</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -381,8 +381,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Setting up the environment</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#todo">TODO</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">SPARQL query</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
 </ul>
 
             </nav>
@@ -395,24 +395,181 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="setting-up-the-environment">
-<h1>Setting up the environment<a class="headerlink" href="#setting-up-the-environment" title="Link to this heading">#</a></h1>
-<p>In this section, we will set up the environment for the course. We will use the following tools:</p>
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">Graph</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+<span class="n">g</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;https://data.wikipathways.org/current/rdf/wikipathways-rdf-void.ttl&quot;</span><span class="p">)</span>
+<span class="n">downloadURL_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">PREFIX dcat:     &lt;http://www.w3.org/ns/dcat#&gt;</span>
+
+<span class="s2">SELECT DISTINCT ?url</span>
+<span class="s2">WHERE {</span>
+<span class="s2">  [] dcat:downloadURL ?url .</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">qres</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">downloadURL_query</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">qres</span><span class="p">:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">url</span>
+    <span class="n">prefix</span><span class="p">,</span> <span class="n">delim</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">archive</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">archive</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.ttl&quot;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;reading </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">ttl_file</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ttl_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">Graph</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">zipfile</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;rdflib&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="sparql-query">
+<h1>SPARQL query<a class="headerlink" href="#sparql-query" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">PREFIX wp: &lt;http://vocabularies.wikipathways.org/wp#&gt;</span>
+<span class="s2">PREFIX dcterms: &lt;http://purl.org/dc/terms/&gt;</span>
+<span class="s2">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span>
+
+<span class="s2">select distinct ?pathway (str(?label) as ?geneProduct) where {</span>
+<span class="s2">    ?geneProduct a wp:GeneProduct . </span>
+<span class="s2">    ?geneProduct rdfs:label ?label .</span>
+<span class="s2">    ?geneProduct dcterms:isPartOf ?pathway .</span>
+<span class="s2">    ?pathway a wp:Pathway .</span>
+<span class="s2">    ?pathway dcterms:identifier &quot;WP716&quot; . #Replace &quot;WP716&quot; with WP ID of interest</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1"># Extract the headers from the result&#39;s vars attribute</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">vars</span>
+
+<span class="c1"># Extract data into a list of lists</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">var</span><span class="p">])</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">headers</span><span class="p">])</span>
+
+<span class="c1"># Create a DataFrame from the data and headers</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;../data/WP716_gene_products.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># Display the DataFrame</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pathway</th>
+      <th>geneProduct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>https://identifiers.org/wikipathways/WP716_r12...</td>
+      <td>RXRA</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>https://identifiers.org/wikipathways/WP716_r12...</td>
+      <td>RXRa</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>https://identifiers.org/wikipathways/WP716_r12...</td>
+      <td>RXR</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>https://identifiers.org/wikipathways/WP716_r12...</td>
+      <td>MAPK1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>https://identifiers.org/wikipathways/WP716_r12...</td>
+      <td>ERK2</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>https://identifiers.org/wikipathways/WP716_r12...</td>
+      <td>Aldh1a2</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>https://identifiers.org/wikipathways/WP716_r12...</td>
+      <td>Rbp2</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>https://identifiers.org/wikipathways/WP716_r12...</td>
+      <td>Lrat</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>https://identifiers.org/wikipathways/WP716_r12...</td>
+      <td>Crabp1</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>https://identifiers.org/wikipathways/WP716_r12...</td>
+      <td>Rdh8</td>
+    </tr>
+  </tbody>
+</table>
+<p>68 rows × 2 columns</p>
+</div></div></div>
+</div>
 </section>
-<section id="todo">
-<h1>TODO<a class="headerlink" href="#todo" title="Link to this heading">#</a></h1>
-<p>If possible we set up a virtual desktop for the course. This will allow us to have a consistent environment for all participants.
-I am thinking of something like <a class="reference external" href="https://hub-paws.wmcloud.org">paws</a>, which basically is a jupyterlab environment with some extensions (e.g. Open Refine).</p>
-<ul class="simple">
-<li><p>RDF Backend. In the previous edition GraphDB was used. I am not sure if GraphDB offers an in the cloud sollution.</p>
-<ul>
-<li><p><a class="reference external" href="https://www.ontotext.com/products/graphdb/">GraphDB</a></p></li>
-<li><p><a class="reference external" href="https://www.stardog.com/">stardog</a></p></li>
-<li><p><a class="reference external" href="https://data.world/">data.world</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference external" href="https://jupyterlab.readthedocs.io/en/stable/">JupyterLab</a></p></li>
-</ul>
+<section class="tex2jax_ignore mathjax_ignore" id="results">
+<h1>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h1>
+<p>Download the results as csv from <a class="reference internal" href="#../data/WP716_gene_products.csv"><span class="xref myst">here</span></a></p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -428,7 +585,7 @@ I am thinking of something like <a class="reference external" href="https://hub-
         },
         kernelOptions: {
             name: "python3",
-            path: "./preparations"
+            path: "./templates"
         },
         predefinedOutput: true
     }
@@ -446,20 +603,20 @@ I am thinking of something like <a class="reference external" href="https://hub-
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../intro.html"
+       href="../preparations/intro.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Knowledge graphs in the life sciences</p>
+        <p class="prev-next-title">Setting up the environment</p>
       </div>
     </a>
     <a class="right-next"
-       href="../templates/local_sparql_template.html"
+       href="remote_sparql_template.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">SPARQL query</p>
+        <p class="prev-next-title">SPARQL Query</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -479,8 +636,8 @@ I am thinking of something like <a class="reference external" href="https://hub-
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Setting up the environment</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#todo">TODO</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">SPARQL query</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
 </ul>
 
   </nav></div>
