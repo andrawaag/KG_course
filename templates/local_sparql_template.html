@@ -465,8 +465,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="c1"># Extract the headers from the result&#39;s vars attribute</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the headers from the result&#39;s vars attribute</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">vars</span>
 
 <span class="c1"># Extract data into a list of lists</span>
@@ -570,6 +569,97 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="results">
 <h1>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h1>
 <p>Download the results as csv from <a class="reference internal" href="#../data/WP716_gene_products.csv"><span class="xref myst">here</span></a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="c1"># Serialize to a temporary file with today&#39;s date</span>
+<span class="n">today_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">temp_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;../data/wikipathways_</span><span class="si">{</span><span class="n">today_date</span><span class="si">}</span><span class="s2">.ttl&quot;</span>
+<span class="n">g</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">temp_filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;ttl&quot;</span><span class="p">)</span>
+
+<span class="c1"># Gzip the file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">,</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;../data/wikipathways_</span><span class="si">{</span><span class="n">today_date</span><span class="si">}</span><span class="s2">.ttl.gz&quot;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">f_in</span><span class="p">,</span> <span class="n">f_out</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">Exception</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">today_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">temp_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;../data/wikipathways_</span><span class="si">{</span><span class="n">today_date</span><span class="si">}</span><span class="s2">.ttl&quot;</span>
+<span class="ne">----&gt; </span><span class="mi">8</span> <span class="n">g</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">temp_filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;ttl&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="c1"># Gzip the file</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">,</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;../data/wikipathways_</span><span class="si">{</span><span class="n">today_date</span><span class="si">}</span><span class="s2">.ttl.gz&quot;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/rdflib/graph.py:1358,</span> in <span class="ni">Graph.serialize</span><span class="nt">(self, destination, format, base, encoding, **args)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1356</span>             <span class="n">os_path</span> <span class="o">=</span> <span class="n">location</span>
+<span class="g g-Whitespace">   </span><span class="mi">1357</span>     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1358</span>         <span class="n">serializer</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1359</span> <span class="k">return</span> <span class="bp">self</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/rdflib/plugins/serializers/turtle.py:245,</span> in <span class="ni">TurtleSerializer.serialize</span><span class="nt">(self, stream, base, encoding, spacious, **args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">243</span>     <span class="k">if</span> <span class="n">firstTime</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">244</span>         <span class="n">firstTime</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="ne">--&gt; </span><span class="mi">245</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">statement</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">firstTime</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">246</span>         <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">248</span> <span class="bp">self</span><span class="o">.</span><span class="n">endDocument</span><span class="p">()</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/rdflib/plugins/serializers/turtle.py:315,</span> in <span class="ni">TurtleSerializer.statement</span><span class="nt">(self, subject)</span>
+<span class="g g-Whitespace">    </span><span class="mi">313</span> <span class="k">def</span> <span class="nf">statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">314</span>     <span class="bp">self</span><span class="o">.</span><span class="n">subjectDone</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">315</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_squared</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_default</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/rdflib/plugins/serializers/turtle.py:319,</span> in <span class="ni">TurtleSerializer.s_default</span><span class="nt">(self, subject)</span>
+<span class="g g-Whitespace">    </span><span class="mi">317</span> <span class="k">def</span> <span class="nf">s_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">318</span>     <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">indent</span><span class="p">())</span>
+<span class="ne">--&gt; </span><span class="mi">319</span>     <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">SUBJECT</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">320</span>     <span class="bp">self</span><span class="o">.</span><span class="n">predicateList</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">321</span>     <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; .&quot;</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/rdflib/plugins/serializers/turtle.py:335,</span> in <span class="ni">TurtleSerializer.path</span><span class="nt">(self, node, position, newline)</span>
+<span class="g g-Whitespace">    </span><span class="mi">332</span> <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">333</span>     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">334</span>         <span class="bp">self</span><span class="o">.</span><span class="n">p_squared</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">newline</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">335</span>         <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_default</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">newline</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">336</span>     <span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">337</span>         <span class="k">raise</span> <span class="n">Error</span><span class="p">(</span><span class="s2">&quot;Cannot serialize node &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">node</span><span class="p">,))</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/rdflib/plugins/serializers/turtle.py:342,</span> in <span class="ni">TurtleSerializer.p_default</span><span class="nt">(self, node, position, newline)</span>
+<span class="g g-Whitespace">    </span><span class="mi">340</span> <span class="k">if</span> <span class="n">position</span> <span class="o">!=</span> <span class="n">SUBJECT</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">newline</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">341</span>     <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">342</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">position</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">343</span> <span class="k">return</span> <span class="kc">True</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/rdflib/plugins/serializers/turtle.py:358,</span> in <span class="ni">TurtleSerializer.label</span><span class="nt">(self, node, position)</span>
+<span class="g g-Whitespace">    </span><span class="mi">355</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">356</span>     <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relativize</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">358</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getQName</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">position</span> <span class="o">==</span> <span class="n">VERB</span><span class="p">)</span> <span class="ow">or</span> <span class="n">node</span><span class="o">.</span><span class="n">n3</span><span class="p">()</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/rdflib/term.py:310,</span> in <span class="ni">URIRef.n3</span><span class="nt">(self, namespace_manager)</span>
+<span class="g g-Whitespace">    </span><span class="mi">300</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">301</span><span class="sd"> This will do a limited check for valid URIs,</span>
+<span class="g g-Whitespace">    </span><span class="mi">302</span><span class="sd"> essentially just making sure that the string includes no illegal</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">306</span><span class="sd">      a prefixed name</span>
+<span class="g g-Whitespace">    </span><span class="mi">307</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">309</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_valid_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">310</span>     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">311</span>         <span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; does not look like a valid URI, I cannot serialize this as N3/Turtle. Perhaps you wanted to urlencode it?&#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">312</span>         <span class="o">%</span> <span class="bp">self</span>
+<span class="g g-Whitespace">    </span><span class="mi">313</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">315</span> <span class="k">if</span> <span class="n">namespace_manager</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">316</span>     <span class="k">return</span> <span class="n">namespace_manager</span><span class="o">.</span><span class="n">normalizeUri</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="ne">Exception</span>: &quot;http://rdf.wikipathways.org/User/%(^&quot; does not look like a valid URI, I cannot serialize this as N3/Turtle. Perhaps you wanted to urlencode it?
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
