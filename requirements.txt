@@ -5,4 +5,3 @@ pandas
 numpy
 wikidataintegrator
 datetime
-shutil
