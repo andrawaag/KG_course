@@ -5,5 +5,7 @@ format: jb-book
 root: intro
 chapters:
 - file: preparations/intro.md
+- file: templates/local_sparql_template.ipynb
+- file: templates/remote_sparql_template.ipynb
 
 
