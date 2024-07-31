@@ -1,0 +1,10 @@
+rdflib
+urllib
+requests
+beautifulsoup4
+pandas
+numpy
+wikidataintegrator
+datetime
+gzip
+shutil
