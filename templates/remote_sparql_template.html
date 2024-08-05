@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -394,38 +394,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Libraries</span>
-<span class="kn">from</span> <span class="nn">wikidataintegrator</span> <span class="kn">import</span> <span class="n">wdi_core</span>
-</pre></div>
-</div>
-</div>
+  <div class="cell tag_remove-input docutils container">
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="sparql-query">
 <h1>SPARQL Query<a class="headerlink" href="#sparql-query" title="Link to this heading">#</a></h1>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">#Which variant of which gene predicts a positive prognosis in colorectal cancer</span>
-<span class="s2">SELECT ?gene ?geneLabel ?variant ?variantLabel</span>
-<span class="s2">WHERE</span>
-<span class="s2">{</span>
-<span class="s2">  VALUES ?disease {wd:Q188874}</span>
-<span class="s2">    ?variant wdt:P3358 ?disease ; # P3358 Positive prognostic predictor</span>
-<span class="s2">          wdt:P3433 ?gene . # P3433 biological variant of</span>
-<span class="s2">    ?gene rdfs:label ?geneLabel .</span>
-<span class="s2">    ?variant rdfs:label ?variantLabel .</span>
-<span class="s2">    FILTER(LANG(?geneLabel) = &quot;en&quot;)</span>
-<span class="s2">    FILTER(LANG(?variantLabel) = &quot;en&quot;)</span>
-<span class="s2">}</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">wdi_core</span><span class="o">.</span><span class="n">WDItemEngine</span><span class="o">.</span><span class="n">execute_sparql_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">as_dataframe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">results</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;../data/positive_prognostic_predictor_in_colorectal_cancer.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">results</span>
-</pre></div>
-</div>
-</div>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">OSError</span><span class="g g-Whitespace">                                   </span>Traceback (most recent call last)
