@@ -1,0 +1,10 @@
+variant,gene,geneLabel,variantLabel
+http://www.wikidata.org/entity/Q28371012,http://www.wikidata.org/entity/Q20969980,KRAS,KRAS G12D
+http://www.wikidata.org/entity/Q28445120,http://www.wikidata.org/entity/Q18058128,MIR218-1,MIR218-1 EXPRESSION
+http://www.wikidata.org/entity/Q28445098,http://www.wikidata.org/entity/Q17860880,CDX2,CDX2 EXPRESSION
+http://www.wikidata.org/entity/Q29938321,http://www.wikidata.org/entity/Q14905160,GNAS,GNAS c.393T>C
+http://www.wikidata.org/entity/Q29938792,http://www.wikidata.org/entity/Q14905674,DCC,DCC EXPRESSION
+http://www.wikidata.org/entity/Q32966014,http://www.wikidata.org/entity/Q18030644,POLE,POLE P286R
+http://www.wikidata.org/entity/Q32966018,http://www.wikidata.org/entity/Q18030644,POLE,POLE V411L
+http://www.wikidata.org/entity/Q32966021,http://www.wikidata.org/entity/Q18030644,POLE,POLE S459F
+http://www.wikidata.org/entity/Q56241040,http://www.wikidata.org/entity/Q17853226,BRAF,BRAF Non-V600
